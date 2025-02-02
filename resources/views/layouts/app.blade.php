@@ -43,6 +43,20 @@
 
     </div>
     @livewireScripts()
+
+   <script>
+        function formatarMontante(input) {
+            // Remove todos os caracteres que não são dígitos
+            let valor = input.value.replace(/\D/g, '');
+
+            valor = (valor / 100).toLocaleString('{{ app()->getLocale() }}', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+            input.value = valor;
+
+        }
+    </script>
 </body>
 
 </html>

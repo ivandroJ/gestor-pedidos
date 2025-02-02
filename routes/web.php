@@ -38,6 +38,7 @@ Route::middleware(['auth', isPasswordNeedReset::class])->group(function () {
 
     //Apenas Perfis Aprovadores
     Route::middleware(IsPerfilAprovador::class)->group(function () {
+        Route::post('/usuario/reset_password', [UsuariosController::class, 'reset_password']);
         Route::resource('usuarios', UsuariosController::class);
         Route::resource('grupos', GruposController::class);
 

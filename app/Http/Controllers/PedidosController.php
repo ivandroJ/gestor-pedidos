@@ -6,6 +6,7 @@ use App\Http\Middleware\IsPerfilSolicitante;
 use App\Http\Requests\pedidos\StorePedidoRequest;
 use App\Models\Pedido;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class PedidosController extends Controller
 {
@@ -16,9 +17,16 @@ class PedidosController extends Controller
     {
         return view('pedidos.index', [
             'back_url' => '/',
-            'pedidos' => Pedido::whereHas('solicitante.grupo', function ($grupo) {
-                $grupo->where('aprovador_id', request()->user()->id);
-            })->orderByDesc('updated_at')->get(),
+            'pedidos' =>
+            request()->user()->isAprovador() ?
+                //Caso seja um Perfil 'Aprovador'
+                Pedido::whereHas('solicitante.grupo', function ($grupo) {
+                    $grupo->where('aprovador_id', request()->user()->id);
+                })->orderByDesc('updated_at')->get()
+                :
+                //Caso seja um Perfil 'Solicitante'
+                request()->user()->solicitante->pedidos()->orderByDesc('updated_at')
+                ->get(),
         ]);
     }
 

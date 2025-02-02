@@ -20,11 +20,11 @@ class UsuariosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-
         return view('usuarios.index', [
             'usuarios' => User::all(),
+            'usuario' => User::find($request->usuario_id),
             'back_url' => '/',
         ]);
     }
@@ -79,14 +79,17 @@ class UsuariosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $usuario) {}
+    public function edit(User $usuario)
+    {
+        return redirect('/usuarios');
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, User $usuario)
     {
-        //
+        return redirect('/usuarios');
     }
 
     /**
@@ -94,12 +97,27 @@ class UsuariosController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        return redirect('/usuarios');
     }
 
-    public function reset_password(Request $request, User $usuario, ResetPasswordUsuarioAction $action)
+    public function reset_password(Request $request, ResetPasswordUsuarioAction $action)
     {
-        $view = redirect("/usuarios/{$usuario->id}");
+
+        $this->validate(
+            $request,
+            [
+                'usuario_id' => 'required|exists:USUARIO,id|not_in:' . request()->user()->id,
+            ],
+            [],
+            [
+                'usuario_id' => 'Usuário',
+            ]
+        );
+
+        $usuario = User::find($request->usuario_id);
+
+        $view = redirect("/usuarios?usuario_id={$usuario->id}#detalhes");
+
         return $action->execute($usuario) ?
             $view->with('sucess_msg', 'Sucesso!')
             : $view->with('error_msg', 'Ocorreu um erro!');

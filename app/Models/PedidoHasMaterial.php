@@ -16,4 +16,14 @@ class PedidoHasMaterial extends Model
     ];
 
     public $timestamps = false;
+
+    public function pedido()
+    {
+        return $this->belongsTo(Pedido::class, 'pedido_id');
+    }
+
+    public function material()
+    {
+        return $this->belongsTo(Material::class, 'material_id');
+    }
 }

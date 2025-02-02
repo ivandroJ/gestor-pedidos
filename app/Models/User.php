@@ -21,6 +21,9 @@ class User extends Authenticatable
 
     protected $table = 'USUARIO';
 
+    public $primaryKey = 'id';
+    protected $keyType = 'int';
+
     protected $fillable = [
         'nome',
         'email',
@@ -77,4 +80,6 @@ class User extends Authenticatable
     {
         return $this->perfil == Config::get('constants.PERFIS.aprovador');
     }
+
+
 }

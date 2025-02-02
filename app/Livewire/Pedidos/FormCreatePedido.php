@@ -2,10 +2,13 @@
 
 namespace App\Livewire\Pedidos;
 
+use App\Actions\Pedidos\StorePedidoAction;
+use App\Actions\Pedidos\TransformCurrencyFormatToNumericAction;
 use App\Models\Material;
-use Barryvdh\Debugbar\Facades\Debugbar;
-use Illuminate\Container\Attributes\DB;
+use App\Rules\CurrencyRule;
 use Livewire\Component;
+use Illuminate\Support\Str;
+
 
 class FormCreatePedido extends Component
 {
@@ -17,7 +20,6 @@ class FormCreatePedido extends Component
         $this->materiais_nomes = Material::pluck('nome')->unique()->toArray();
 
         $this->pedido = [
-            'solicitante_id' => request()->user()->id,
             'materiais' => []
         ];
     }
@@ -34,19 +36,23 @@ class FormCreatePedido extends Component
 
     public function add_material()
     {
-        Debugbar::info($this->pedido);
-
         $this->validate([
             'material.nome' => 'required|string|max:45',
             'material.quantidade' => 'required|integer|min:1',
-            'material.preco' => 'required|numeric|min:0',
+            'material.preco' => [
+                'required',
+                'min:0.01',
+                new CurrencyRule
+            ],
         ], [], [
             'material.nome' => 'Nome',
             'material.quantidade' => 'Quantidade',
             'material.preco' => 'Preço Unitário',
         ]);
 
+        $action = new TransformCurrencyFormatToNumericAction();
 
+        $this->material['preco'] = $action->execute($this->material['preco']);
         $this->material['subTotal'] = $this->material['preco'] * $this->material['quantidade'];
 
         array_push(
@@ -58,5 +64,24 @@ class FormCreatePedido extends Component
 
         $this->material = [];
         $this->changeFormAdMaterialVisibility();
+    }
+
+    public function remove_material($index)
+    {
+        if (!isset($this->pedido['materiais'][$index]))
+            return;
+
+        $this->total -= $this->pedido['materiais'][$index]['subTotal'];
+        unset($this->pedido['materiais'][$index]);
+    }
+
+    public function submeter()
+    {
+        $action = new StorePedidoAction();
+        $pedido = $action->execute($this->pedido['materiais']);
+
+        if ($pedido)
+            return redirect()->to('/pedidos')->with('sucess_msg', 'Sucesso!');
+        
     }
 }

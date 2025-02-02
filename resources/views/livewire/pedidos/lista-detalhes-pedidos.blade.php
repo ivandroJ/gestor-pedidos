@@ -1,18 +1,7 @@
-@extends('layouts.app')
-
-@section('content')
-
+<div>
     <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full">
         <div class="p-6">
-            @if (request()->user()->isSolicitante())
-                <div class="flex justify-end mb-4">
-                    <a href="{{ url('/pedido/novo') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                        <i class="fas fa-plus"></i>
-                        Novo
-                    </a>
-                </div>
-            @endif
-
+           
             <div class="overflow-x-auto">
                 <table class="min-w-full bg-white">
                     <thead class="bg-gray-50">
@@ -20,10 +9,12 @@
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Data da Última Actualização
                             </th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Data da Criação
                             </th>
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Total do Pedido
                             </th>
                             @if (!request()->user()->isSolicitante())
@@ -32,7 +23,8 @@
                                     Solicitante
                                 </th>
                             @endif
-                            <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th
+                                class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Status
                             </th>
                             <th></th>
@@ -43,11 +35,13 @@
                         @foreach ($pedidos as $pedido)
                             <tr class="hover:bg-indigo-200">
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <div class="text-sm text-gray-900">{{ $pedido->updated_at->format('Y-m-d H:i:s') }} <br> ({{ $pedido->updated_at->diffForHumans() }})
+                                    <div class="text-sm text-gray-900">{{ $pedido->updated_at->format('Y-m-d H:i:s') }}
+                                        <br> ({{ $pedido->updated_at->diffForHumans() }})
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    <div class="text-sm text-gray-900">{{ $pedido->created_at->format('Y-m-d H:i:s') }} <br> ({{ $pedido->created_at->diffForHumans() }})
+                                    <div class="text-sm text-gray-900">{{ $pedido->created_at->format('Y-m-d H:i:s') }}
+                                        <br> ({{ $pedido->created_at->diffForHumans() }})
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right">
@@ -68,7 +62,8 @@
 
                                 <td class="px-6 py-4 whitespace-nowrap">
 
-                                    <button class="bg-blue-400 text-white px-2 py-1 rounded-lg hover:bg-blue-600 text-sm">
+                                    <button
+                                        class="bg-blue-400 text-white px-2 py-1 rounded-lg hover:bg-blue-600 text-sm">
                                         <i class="fas fa-list"></i>
                                         Detalhes
                                     </button>
@@ -81,4 +76,4 @@
 
         </div>
     </div>
-@endsection
+</div>

@@ -32,7 +32,7 @@
 
                         <!-- Corpo da Tabela -->
                         <tbody class="divide-y divide-gray-200">
-                            @forelse ($pedido['materiais'] ?? [] as $material)
+                            @forelse ($pedido['materiais'] ?? [] as $index => $material)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $material['nome'] }}</div>
@@ -48,15 +48,17 @@
                                             {{ number_format($material['quantidade']) }}
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
                                         <div class="text-sm text-gray-900">
-                                            {{ number_format($material['subTotal'],2,',','.') }}
+                                            {{ number_format($material['subTotal'], 2, ',', '.') }}
                                         </div>
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <button>
-                                            Detalhes
+                                    <td class="px-6 py-4 whitespace-nowrap text-center">
+                                        <button wire:click="remove_material({{ $index }})"
+
+                                            class="text-sm bg-red-600 text-white py-1 px-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                            <i class="fas fa-trash"></i>
                                         </button>
 
                                     </td>
@@ -106,33 +108,42 @@
                                             <span class="text-xs text-red-500">{{ $message }}</span>
                                         @enderror
                                     </div>
-                                    <div class="flex justify-content-md-between">
-                                        <div class="mb-4 mr-5 w-full grid-cols-6">
-                                            <label for="quantidade" class="block text-sm font-medium text-gray-700">
-                                                Quantidade <span class="text-red-500">*</span>
-                                            </label>
-                                            <input type="number" min="1" max="999" id="quantidade"
-                                                wire:model.defer='material.quantidade'
-                                                class="text-center mt-1 block w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                placeholder="Insira a Quantidade">
 
-                                            @error('material.quantidade')
-                                                <span class="text-xs text-red-500">{{ $message }}</span>
-                                            @enderror
+                                    <div class="mb-4 mr-5 w-full grid-cols-6">
+                                        <label for="quantidade" class="block text-sm font-medium text-gray-700">
+                                            Quantidade <span class="text-red-500">*</span>
+                                        </label>
+                                        <input type="number" min="1" max="999" id="quantidade"
+                                            wire:model.defer='material.quantidade'
+                                            class="text-center mt-1 block w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                            placeholder="Insira a Quantidade">
+
+                                        @error('material.quantidade')
+                                            <span class="text-xs text-red-500">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mb-4">
+                                        <label for="preco" class="block text-sm font-medium text-gray-700">
+                                            Preço Unitário <span class="text-red-500">*</span>
+                                        </label>
+                                        <div class="mt-1 relative rounded-md shadow-sm px-3 py-2">
+                                            <div
+                                                class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm">$</span>
+                                            </div>
+                                            <input type="text" name="preco" id="preco"
+                                                class="focus:ring-indigo-500 focus:border-indigo-500 block w-full pl-7 pr-12 sm:text-sm border-gray-300 rounded-md"
+                                                placeholder="0.00" oninput="formatarMontante(this)"
+                                                wire:model.defer='material.preco' />
+                                            <div
+                                                class="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                                                <span class="text-gray-500 sm:text-sm" id="currency">AKZ</span>
+                                            </div>
                                         </div>
-                                        <div class="mb-4 w-full">
-                                            <label for="preco" class="block text-sm font-medium text-gray-700">
-                                                Preço Unitário <span class="text-red-500">*</span>
-                                            </label>
-                                            <input type="number" step="0.01" id="preco" wire:model.defer='material.preco'
-                                                class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                                placeholder="Insira o Preço do Material">
-
-                                            @error('material.preco')
-                                                <span class="text-xs text-red-500">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-
+                                        @error('material.preco')
+                                            <span class="text-xs text-red-500">{{ $message }}</span>
+                                        @enderror
                                     </div>
 
                                     @error('usuario')
@@ -169,10 +180,12 @@
                             </div>
 
                             <div class="mb-1">
-                                <button
+                                <form wire:submit="submeter" onsubmit="return confirm('Confirmar?')">
+                                    <button type="submit"
                                     class="text-sm w-full bg-green-600 text-white py-3 px-2 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2">
                                     <i class="fas fa-check"></i>
                                     Submeter Pedido</button>
+                                </form>
                             </div>
                         @endif
                     </div>
