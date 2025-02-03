@@ -32,7 +32,7 @@
 
                         <!-- Corpo da Tabela -->
                         <tbody class="divide-y divide-gray-200">
-                            @forelse ($pedido['materiais'] ?? [] as $index => $material)
+                            @forelse ($lista_materiais as $index => $material)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $material['nome'] }}</div>
@@ -182,7 +182,8 @@
                             <div class="mb-1">
                                 <form wire:submit="submeter" onsubmit="return confirm('Confirmar?')">
                                     <button type="submit"
-                                    class="text-sm w-full bg-green-600 text-white py-3 px-2 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2">
+                                    class="text-sm w-full bg-green-600 text-white py-3 px-2 rounded-md hover:bg-yellow-500
+                                    focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2">
                                     <i class="fas fa-check"></i>
                                     Submeter Pedido</button>
                                 </form>

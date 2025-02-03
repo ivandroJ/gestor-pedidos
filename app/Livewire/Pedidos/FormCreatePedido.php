@@ -4,7 +4,9 @@ namespace App\Livewire\Pedidos;
 
 use App\Actions\Pedidos\StorePedidoAction;
 use App\Actions\Pedidos\TransformCurrencyFormatToNumericAction;
+use App\Actions\Pedidos\UpdatePedidoAction;
 use App\Models\Material;
+use App\Models\Pedido;
 use App\Rules\CurrencyRule;
 use Livewire\Component;
 use Illuminate\Support\Str;
@@ -12,16 +14,34 @@ use Illuminate\Support\Str;
 
 class FormCreatePedido extends Component
 {
-    public $pedido, $material = [], $materiais_nomes, $show_ad_material = false, $total;
+    public $pedido, $material = [], $materiais_nomes,
+        $show_ad_material = false, $total,
+        $lista_materiais = [], $for_edit = false;
 
 
-    public function mount()
+    public function mount(?Pedido $pedido = null)
     {
-        $this->materiais_nomes = Material::pluck('nome')->unique()->toArray();
 
-        $this->pedido = [
-            'materiais' => []
-        ];
+        if ($pedido) {
+            $this->for_edit = true;
+
+            $this->lista_materiais = $pedido->pedidoHasMateriais->map(function ($pedidoHasMaterial) {
+                return [
+                    'material_id' => $pedidoHasMaterial->material->id,
+                    'nome' => $pedidoHasMaterial->material->nome,
+                    'subTotal' => $pedidoHasMaterial->subTotal,
+                    'preco' => $pedidoHasMaterial->material->preco,
+                    'quantidade' => $pedidoHasMaterial->quantidade,
+                ];
+            })->toArray();
+
+
+            $this->pedido = $pedido;
+            $this->total = $pedido->total;
+        }
+
+        //PARA SUGESTÕES NO CAMPO DE INSERÇÃO DO NOME DO MATERIAL
+        $this->materiais_nomes = Material::pluck('nome')->unique()->toArray();
     }
 
     public function render()
@@ -41,7 +61,7 @@ class FormCreatePedido extends Component
             'material.quantidade' => 'required|integer|min:1',
             'material.preco' => [
                 'required',
-                'min:0.01',
+                'min:0',
                 new CurrencyRule
             ],
         ], [], [
@@ -56,7 +76,7 @@ class FormCreatePedido extends Component
         $this->material['subTotal'] = $this->material['preco'] * $this->material['quantidade'];
 
         array_push(
-            $this->pedido['materiais'],
+            $this->lista_materiais,
             $this->material
         );
 
@@ -68,20 +88,27 @@ class FormCreatePedido extends Component
 
     public function remove_material($index)
     {
-        if (!isset($this->pedido['materiais'][$index]))
+        if (!isset($this->lista_materiais[$index]))
             return;
 
-        $this->total -= $this->pedido['materiais'][$index]['subTotal'];
-        unset($this->pedido['materiais'][$index]);
+        $this->total -= $this->lista_materiais[$index]['subTotal'];
+        unset($this->lista_materiais[$index]);
     }
 
     public function submeter()
     {
-        $action = new StorePedidoAction();
-        $pedido = $action->execute($this->pedido['materiais']);
+        $pedido = null;
+
+        if ($this->pedido && $this->for_edit) {
+            $action = new UpdatePedidoAction();
+            $pedido = $action->execute($this->pedido, $this->lista_materiais);
+        } else {
+            $action = new StorePedidoAction();
+            $pedido = $action->execute($this->lista_materiais);
+        }
+
 
         if ($pedido)
-            return redirect()->to('/pedidos')->with('sucess_msg', 'Sucesso!');
-        
+            return redirect()->to('/pedidos?id=' . $pedido->id)->with('sucess_msg', 'Sucesso!');
     }
 }

@@ -17,16 +17,7 @@ class PedidosController extends Controller
     {
         return view('pedidos.index', [
             'back_url' => '/',
-            'pedidos' =>
-            request()->user()->isAprovador() ?
-                //Caso seja um Perfil 'Aprovador'
-                Pedido::whereHas('solicitante.grupo', function ($grupo) {
-                    $grupo->where('aprovador_id', request()->user()->id);
-                })->orderByDesc('updated_at')->get()
-                :
-                //Caso seja um Perfil 'Solicitante'
-                request()->user()->solicitante->pedidos()->orderByDesc('updated_at')
-                ->get(),
+            'pedido' => Pedido::find(request('id')),
         ]);
     }
 
@@ -47,7 +38,7 @@ class PedidosController extends Controller
      */
     public function store(StorePedidoRequest $request)
     {
-        //
+        return redirect('/pedidos');
     }
 
     /**
@@ -55,15 +46,25 @@ class PedidosController extends Controller
      */
     public function show(Pedido $pedido)
     {
-        return $pedido;
+        return redirect('/pedidos');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pedido $pedido)
+    public function edit($id)
     {
-        //
+        $this->middleware(IsPerfilSolicitante::class);
+
+        $pedido = Pedido::find($id);
+
+        if (!$pedido->isStatusSolicitandoAlteracoes())
+            return back()->with('warning_msg', 'Não foram solicitadas alterações para este pedido!');
+
+        return view('pedidos.edit', [
+            'back_url' => '/pedidos?id=' . $pedido->id,
+            'pedido' => $pedido
+        ]);
     }
 
     /**
@@ -71,7 +72,7 @@ class PedidosController extends Controller
      */
     public function update(Request $request, Pedido $pedido)
     {
-        //
+        return redirect('/pedidos');
     }
 
     /**
@@ -79,6 +80,6 @@ class PedidosController extends Controller
      */
     public function destroy(Pedido $pedido)
     {
-        //
+        return redirect('/pedidos');
     }
 }

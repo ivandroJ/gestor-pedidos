@@ -27,6 +27,8 @@ return new class extends Migration
 
             $table->integer('quantidade');
             $table->decimal('subTotal');
+
+            $table->primary(['pedido_id', 'material_id'], 'PK_PED_MAT');
         });
     }
 

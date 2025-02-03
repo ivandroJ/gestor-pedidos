@@ -17,7 +17,7 @@ class IsPerfilAprovador
     public function handle(Request $request, Closure $next): Response
     {
         return
-            request()->user()->isAprovador() ?
+            session('is_aprovador') ?
             $next($request) : redirect('/')->with('error_msg', 'Acesso Negado!');
     }
 }

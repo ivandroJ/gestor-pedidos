@@ -18,7 +18,7 @@
 
                 <div class="mb-4 md:w-1/4 px-2">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Perfil</label>
-                    <x-pill :label="$usuario->perfil" class="text-lg"></x-pill>
+                    <x-pill :label="$usuario->perfil"></x-pill>
                 </div>
 
                 @if ($usuario->isSolicitante())

@@ -17,7 +17,7 @@ class IsPerfilSolicitante
     public function handle(Request $request, Closure $next): Response
     {
         return
-            request()->user()->isSolicitante() ?
+            session('is_solicitante') ?
             $next($request) : redirect('/')->with('error_msg', 'Acesso Negado!');
     }
 }

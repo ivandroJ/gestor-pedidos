@@ -46,6 +46,7 @@ Route::middleware(['auth', isPasswordNeedReset::class])->group(function () {
     });
 
     Route::get('/pedido/novo', [PedidosController::class, 'create']);
+    Route::get('/pedido/{id}/alterar', [PedidosController::class, 'edit']);
     Route::resource('pedidos', PedidosController::class);
 
     Route::get('/inicio', [PagesController::class, 'home'])

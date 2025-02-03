@@ -13,7 +13,7 @@ class Pill extends Component
      * Create a new component instance.
      */
 
-    public $label, $color, $icon;
+    public $label, $color, $icon, $how_strong = '800';
 
     public function __construct(String $label, String $icon = null)
     {
@@ -23,8 +23,12 @@ class Pill extends Component
             case Config::get('constants.PERFIS.aprovador'):
                 $this->color = 'green';
                 break;
-                case Config::get('constants.TIPOS_STATUS_PEDIDOS.aprovado') :
+            case Config::get('constants.TIPOS_STATUS_PEDIDOS.aprovado'):
                 $this->color = 'green';
+                break;
+            case Config::get('constants.TIPOS_STATUS_PEDIDOS.rejeitado'):
+                $this->color = 'red';
+                $this->how_strong = '500';
                 break;
             case Config::get('constants.PERFIS.solicitante'):
                 $this->color = 'blue';
@@ -34,9 +38,11 @@ class Pill extends Component
                 break;
             case Config::get('constants.TIPOS_STATUS_PEDIDOS.revisao'):
                 $this->color = 'yellow';
+                $this->how_strong = '600';
                 break;
             case Config::get('constants.TIPOS_STATUS_PEDIDOS.alteracoes'):
-                $this->color = 'orange';
+                $this->color = 'yellow';
+                $this->how_strong = '900';
                 break;
             default:
                 $this->color = 'gray';

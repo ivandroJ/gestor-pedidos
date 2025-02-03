@@ -38,6 +38,17 @@ class SessionsController extends Controller
 
         if (Auth::attempt(["email" => request('email'), "password" => request('password')])) {
             $request->session()->regenerate();
+
+            if (request()->user()->isAprovador()) {
+                session([
+                    'is_aprovador' => true,
+                ]);
+            } else {
+                session([
+                    'is_solicitante' => true,
+                ]);
+            }
+
             return redirect()->intended('/');
         } else {
             return back()->withErrors([
