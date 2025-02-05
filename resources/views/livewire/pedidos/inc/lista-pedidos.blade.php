@@ -24,7 +24,7 @@
 
                  <tbody class="divide-y divide-gray-200">
                      @forelse ($pedidos as $index => $element)
-                         <tr class="hover:bg-indigo-200 text-xs">
+                         <tr class="hover:bg-gray-200 text-xs">
                              <td class="py-4 whitespace-nowrap text-center">
                                  <div class=" text-gray-900">{{ $element->updated_at->format('Y-m-d H:i:s') }}
                                      <br> ({{ $element->updated_at->diffForHumans() }})
