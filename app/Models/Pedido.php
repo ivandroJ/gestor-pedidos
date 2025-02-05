@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Config;
 
 class Pedido extends Model
 {
+    use HasFactory;
+
     protected $table = 'PEDIDO';
     public $primaryKey = 'id';
     protected $keyType = 'int';
@@ -72,6 +75,6 @@ class Pedido extends Model
 
     public function isYourAprovador(User $usuario): bool
     {
-        return $this->solicitante->grupo->aprovador->id == $usuario->id;
+        return $this->solicitante->grupo->aprovador_id == $usuario->id;
     }
 }

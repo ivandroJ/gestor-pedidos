@@ -7,7 +7,7 @@ return
                 'label' => 'Pedidos',
                 'color' => 'yellow',
                 'url' => '/pedidos',
-                'icon' => 'fas fa-map-marker'
+                'icon' => 'fas fa-sticky-note'
             ],
             [
                 'label' => 'Grupos',
@@ -24,17 +24,17 @@ return
 
         ],
 
-    'OPCOES_MENU_Solicitante' => [
-        [
-            'label' => 'Pedidos',
-            'color' => 'yellow',
-            'url' => '/pedidos',
-            'icon' => 'fas fa-map-marker'
+        'OPCOES_MENU_Solicitante' => [
+            [
+                'label' => 'Pedidos',
+                'color' => 'yellow',
+                'url' => '/pedidos',
+                'icon' => 'fas fa-sticky-note'
+            ],
+
+
+
         ],
-
-        
-
-    ],
 
         'TIPOS_STATUS_PEDIDOS' => [
             'novo' => 'Novo',
@@ -47,4 +47,6 @@ return
             'solicitante' => 'Solicitante',
             'aprovador' => 'Aprovador',
         ],
+
+
     ];

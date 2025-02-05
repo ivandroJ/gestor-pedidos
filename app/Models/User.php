@@ -81,5 +81,8 @@ class User extends Authenticatable
         return $this->perfil == Config::get('constants.PERFIS.aprovador');
     }
 
-
+    public function updatedAlredyWithinDay(): bool
+    {
+        return now()->diff($this->updated_at)->days <= 1;
+    }
 }

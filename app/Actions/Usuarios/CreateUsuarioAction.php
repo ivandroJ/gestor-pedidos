@@ -37,6 +37,10 @@ class CreateUsuarioAction
                 ]))
                     return DB::rollBack();
 
+            //Enviar as Credenciais
+            $action = new SendUsuarioCredentialsAction();
+            $action->execute($usuario);
+
             return $usuario;
         });
     }

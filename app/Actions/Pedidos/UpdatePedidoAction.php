@@ -18,6 +18,7 @@ class UpdatePedidoAction
     {
         return DB::transaction(function () use ($pedido, $materiais) {
 
+
             $result = $pedido->update([
                 'total' => array_sum(array_column($materiais, 'subTotal')),
             ]);

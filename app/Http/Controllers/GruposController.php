@@ -2,73 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Pedidos\TransformCurrencyFormatToNumericAction;
 use App\Http\Requests\grupos\StoreGrupoRequest;
 use App\Models\Grupo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class GruposController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
     public function index()
     {
-        $grupos = request()->user()->grupos;
-
+        $grupos = Auth::user()->grupos;
+        $page_title = 'Grupos';
         $back_url = '/';
 
-        return view('grupos.index', compact('grupos', 'back_url'));
+        return view('grupos.index', compact('grupos', 'back_url', 'page_title'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        return redirect('/grupos');
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGrupoRequest $request)
+    public function store(StoreGrupoRequest $request, TransformCurrencyFormatToNumericAction $action)
     {
-        $grupo = Grupo::create($request->only(
-            ['nome', 'saldoPermitido']
-        ) + ['aprovador_id' => $request->user()->id]);
 
-        return redirect('/grupos')->with('sucesso_msg', "Grupo '{$grupo->nome}' criado com sucesso!");
-    }
+        $saldoPermitido = $action->execute(request('saldoPermitido'));
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Grupo $grupo)
-    {
-        //
-    }
+        $grupo = Grupo::create([
+            'nome' => request('nome'),
+            'saldoPermitido' => $saldoPermitido,
+            'aprovador_id' => $request->user()->id
+        ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Grupo $grupo)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Grupo $grupo)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Grupo $grupo)
-    {
-        //
+        return redirect('/grupos')
+            ->with('sucesso_msg', "Grupo '{$grupo->nome}' criado com sucesso!");
     }
 }

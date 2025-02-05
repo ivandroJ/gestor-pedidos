@@ -16,21 +16,19 @@
                     placeholder="Insira o nome do Grupo" value="{{ old('nome') }}"></x-input-text>
             </div>
 
+
+
             <div class="mb-4">
-                <x-input-text id="saldoPermitido" name="saldoPermitido" type="number" title="Saldo Permitido"
-                    placeholder="Insira o saldo permitido" value="{{ old('saldoPermitido') }}"></x-input-text>
+                 <x-currency-input id="saldoPermitido" name="saldoPermitido" value="{{ old('saldoPermitido') }}">
+                    Saldo Permitido<span class="text-red-500">*</span>
+                 </x-currency-input>
             </div>
 
-
-            <!-- Corpo do Modal -->
-
-
-            <!-- Rodapé do Modal -->
             <div class="flex justify-end">
-                <button id="cancelModal" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 mr-2">
+                <button type="button" id="cancelModal" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 mr-2">
                     Cancelar
                 </button>
-                <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
                     Salvar
                 </button>
             </div>

@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Schedule;
 })->purpose('Display an inspiring quote');
  */
 
-
+//NOTIFICA OS APROVADORES E SOLICITANTES COM PEDIDO PENDENTES A MAIS DE 24H
 Schedule::call(function () {
     $action = new SendNotificationPendentPedidosAction();
     $action->execute();

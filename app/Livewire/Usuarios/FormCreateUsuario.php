@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Usuarios;
 
+use App\Actions\Sessions\StartSessionAction;
 use App\Actions\Usuarios\CreateUsuarioAction;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -17,7 +18,7 @@ class FormCreateUsuario extends Component
         $this->perfis = Config::get('constants.PERFIS');
 
         if (Auth::check()) {
-            $this->grupos = request()->user()->grupos;
+            $this->grupos = Auth::user()->grupos;
             $this->usuario['perfil'] = null;
         } else {
             $this->is_primeira_vez = true;
@@ -45,15 +46,24 @@ class FormCreateUsuario extends Component
             'usuario.grupo_id' => 'Grupo',
         ]);
 
-        $action = new CreateUsuarioAction();
+        $createUsuarioAction = new CreateUsuarioAction();
+        $startSessionAction  = new StartSessionAction();
 
-        $usuario = $action->execute(
+        $usuario = $createUsuarioAction->execute(
             $this->usuario['nome'],
             $this->usuario['email'],
             $this->usuario['perfil'],
-            $this->usuario['grupo_id'],
+            $this->usuario['grupo_id'] ?? null,
         );
 
-        return redirect()->to('/usuarios');
+        $first_time = false;
+
+        if (!Auth::check()) {
+            $startSessionAction->execute($usuario->email, $usuario->reseted_password);
+            $first_time = true;
+        }
+
+        return redirect()->to(Auth::check() && !$first_time ? '/usuarios' : '/inicio')
+            ->with('sucess_msg', "Usuário '{$usuario->nome}' cadastrado com sucesso!");
     }
 }

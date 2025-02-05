@@ -8,6 +8,7 @@ use App\Actions\Pedidos\UpdatePedidoAction;
 use App\Models\Material;
 use App\Models\Pedido;
 use App\Rules\CurrencyRule;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Illuminate\Support\Str;
 
@@ -19,7 +20,7 @@ class FormCreatePedido extends Component
         $lista_materiais = [], $for_edit = false;
 
 
-    public function mount(?Pedido $pedido = null)
+    public function mount($pedido = null)
     {
 
         if ($pedido) {
@@ -84,6 +85,7 @@ class FormCreatePedido extends Component
 
         $this->material = [];
         $this->changeFormAdMaterialVisibility();
+
     }
 
     public function remove_material($index)
@@ -97,6 +99,12 @@ class FormCreatePedido extends Component
 
     public function submeter()
     {
+
+        if (count($this->lista_materiais) == 0) {
+            session()->flash('warning_msg', 'Lista de materiais vazia!');
+            return;
+        }
+
         $pedido = null;
 
         if ($this->pedido && $this->for_edit) {
@@ -104,7 +112,7 @@ class FormCreatePedido extends Component
             $pedido = $action->execute($this->pedido, $this->lista_materiais);
         } else {
             $action = new StorePedidoAction();
-            $pedido = $action->execute($this->lista_materiais);
+            $pedido = $action->execute($this->lista_materiais, Auth::user()->solicitante, Auth::user()->solicitante->grupo);
         }
 
 

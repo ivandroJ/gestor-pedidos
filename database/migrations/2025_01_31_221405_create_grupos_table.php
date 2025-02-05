@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('GRUPO', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 45);
-            $table->decimal('saldoPermitido');
+            $table->decimal('saldoPermitido',16);
             $table->foreignIdFor(User::class, 'aprovador_id')
                 ->references('id')
                 ->on('USUARIO')

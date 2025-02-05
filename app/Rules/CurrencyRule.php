@@ -20,7 +20,7 @@ class CurrencyRule implements ValidationRule
         $quantia = $action->execute($value);
 
         if (!is_numeric($quantia)) {
-            $fail('validation.numeric')->translate();
+            $fail('validation.decimal')->translate();
         }
     }
 }

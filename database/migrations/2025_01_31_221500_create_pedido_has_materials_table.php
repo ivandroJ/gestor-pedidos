@@ -26,7 +26,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
 
             $table->integer('quantidade');
-            $table->decimal('subTotal');
+            $table->decimal('subTotal',16);
 
             $table->primary(['pedido_id', 'material_id'], 'PK_PED_MAT');
         });

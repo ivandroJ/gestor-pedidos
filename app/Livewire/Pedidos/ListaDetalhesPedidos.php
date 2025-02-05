@@ -4,6 +4,8 @@ namespace App\Livewire\Pedidos;
 
 use App\Actions\Pedidos\UpdateStatusPedidoAction;
 use App\Models\Pedido;
+use App\Models\Solicitante;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Livewire\Component;
 
@@ -19,7 +21,7 @@ class ListaDetalhesPedidos extends Component
         $this->pedidos = session('is_aprovador') ?
             //Caso seja um Perfil 'Aprovador'
             Pedido::whereHas('solicitante.grupo', function ($grupo) {
-                $grupo->where('aprovador_id', request()->user()->id);
+                $grupo->where('aprovador_id', Auth::user()->id);
             })->orderByDesc('updated_at')
             ->with('solicitante', 'solicitante.grupo', 'solicitante.usuario', 'pedidoHasMateriais', 'pedidoHasMateriais.material')
             ->get()
@@ -42,7 +44,7 @@ class ListaDetalhesPedidos extends Component
         if (!$this->pedido || !session('is_aprovador'))
             return false;
 
-        return $this->pedido->isYourAprovador(request()->user());
+        return $this->pedido->isYourAprovador(Auth::user());
     }
 
     private function update_status(String $new_status)

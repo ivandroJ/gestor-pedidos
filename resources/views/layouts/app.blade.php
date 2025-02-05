@@ -18,33 +18,41 @@
 
 <body class="bg-gray-100 {{ Auth::check() ? '' : 'flex items-center justify-center h-screen' }}">
     <div id="app">
-        @include('inc.msg')
+
         @auth
             <x-nav-bar-component />
         @endauth
 
         @if (Auth::check())
             <div class="container mx-auto px-4 pt-20">
+                @include('inc.msg')
+
+                @if (isset($page_title))
+                    <div class="flex justify-between items-center mb-2">
+                        <h2 class="text-2xl text-gray-600 font-bold">{{ $page_title }}</h2>
+                    </div>
+                @endif
                 @yield('content')
 
-                @if(url()->current() != url('/inicio') && !isset($hide_btn_back))
-                <div class="mt-6">
-                    <a href="{{ $back_url ?? url()->previous() }}"
-                        class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
-                        <i class="fas fa-arrow-left"></i>
-                        Voltar
-                    </a>
-                </div>
+                @if (url()->current() != url('/inicio') && !isset($hide_btn_back))
+                    <div class="mt-6">
+                        <a href="{{ $back_url ?? url()->previous() }}"
+                            class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">
+                            <i class="fas fa-arrow-left"></i>
+                            Voltar
+                        </a>
+                    </div>
                 @endif
             </div>
         @else
+            @include('inc.msg')
             @yield('content')
         @endif
 
     </div>
     @livewireScripts()
 
-   <script>
+    <script>
         function formatarMontante(input) {
             // Remove todos os caracteres que não são dígitos
             let valor = input.value.replace(/\D/g, '');
@@ -55,6 +63,11 @@
             });
             input.value = valor;
 
+
+        }
+
+        function hide_element(id) {
+            document.getElementById(id).classList.add('hidden')
         }
     </script>
 </body>

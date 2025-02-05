@@ -1,3 +1,3 @@
 <div>
-    {{ $notification_message }}
+    {!! $notification_message !!}
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\Sessions\StartSessionAction;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class SessionsController extends Controller
     }
 
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request, StartSessionAction $action)
     {
         $this->validate(
             $request,
@@ -36,26 +37,19 @@ class SessionsController extends Controller
             ]
         );
 
-        if (Auth::attempt(["email" => request('email'), "password" => request('password')])) {
-            $request->session()->regenerate();
-
-            if (request()->user()->isAprovador()) {
-                session([
-                    'is_aprovador' => true,
-                ]);
-            } else {
-                session([
-                    'is_solicitante' => true,
-                ]);
-            }
-
-            return redirect()->intended('/');
-        } else {
-            return back()->withErrors([
+        return $action->execute(request('email'), request('password')) ? redirect()->intended('/')
+            : back()->withErrors([
                 "usuario" => "Credenciais inválidas!"
             ]);
-        }
     }
+
+    public function forgot_password()
+    {
+        return view('sessions.forgot_password', [
+            'page_title' => 'Recuperar Senha',
+        ]);
+    }
+
 
     public function logout()
     {

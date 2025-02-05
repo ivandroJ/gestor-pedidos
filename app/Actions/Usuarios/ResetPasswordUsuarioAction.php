@@ -10,13 +10,20 @@ class ResetPasswordUsuarioAction
 
     public function execute(User $usuario): bool
     {
-        $action = new GeneratePasswordUsuarioAction();
+        $generatePasswordAction = new GeneratePasswordUsuarioAction();
 
-        $new_password = $action->execute();
+        $new_password = $generatePasswordAction->execute();
 
-        return $usuario->update([
+        $result = $usuario->update([
             'password' => bcrypt($new_password),
             'reseted_password' => $new_password,
         ]);
+
+        if ($result) {
+            $sendNotificationAction = new SendUsuarioCredentialsAction();
+            $sendNotificationAction->execute($usuario);
+        }
+
+        return $result;
     }
 }

@@ -29,7 +29,7 @@
                 @endif
 
             </div>
-            @if (request()->user()->id != $usuario->id)
+            @if (Auth::user()->id != $usuario->id)
                 <div class="flex justify-between items-center mb-4">
                     <div>
                         @if ($usuario->reseted_password)

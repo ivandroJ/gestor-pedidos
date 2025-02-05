@@ -28,16 +28,16 @@ class SendNotificationStatusPedidoUpdateAction
                 $grupo = $pedido->solicitante->grupo;
                 $usuario = $grupo->aprovador;
                 $message = "Caro(a) {$usuario->primeiroNome()}, foi submetido o Pedido #{$pedido->id} do Grupo {$grupo->nome}.";
-              
+
                 break;
             case Config::get('constants.TIPOS_STATUS_PEDIDOS.alteracoes'):
                 $usuario = $pedido->solicitante->usuario;
-                $message = "Caro(a) {$usuario->primeiroNome()}, foi recomendado que possa fazer alterações ao seu Pedido #{$pedido->id}.";
+                $message = "Caro(a) {$usuario->primeiroNome()}, foi recomendado que faça alterações no seu Pedido #{$pedido->id}.";
                 break;
             default:
                 $usuario = $pedido->solicitante->usuario;
                 $message = "Caro(a) {$usuario->primeiroNome()}, o seu Pedido #{$pedido->id} foi {$pedido->status}.";
-                return;
+                break;
         }
 
         //ENVIA PARA FILA, O ENVIO DO E-MAIL

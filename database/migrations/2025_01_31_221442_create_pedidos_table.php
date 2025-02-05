@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('PEDIDO', function (Blueprint $table) {
             $table->id();
-            $table->decimal('total');
+            $table->decimal('total', 16);
             $table->enum('status', Config::get('constants.TIPOS_STATUS_PEDIDOS'))
-                ->default('Novo');
+                ->default(Config::get('constants.TIPOS_STATUS_PEDIDOS.novo'));
 
             $table->foreignIdFor(Solicitante::class, 'solicitante_id')
                 ->references('id')

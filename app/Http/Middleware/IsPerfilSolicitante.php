@@ -18,6 +18,6 @@ class IsPerfilSolicitante
     {
         return
             session('is_solicitante') ?
-            $next($request) : redirect('/')->with('error_msg', 'Acesso Negado!');
+            $next($request) : redirect('/inicio')->with('error_msg', 'Acesso Negado!');
     }
 }

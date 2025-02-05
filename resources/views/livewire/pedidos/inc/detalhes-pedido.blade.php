@@ -76,57 +76,65 @@
                 </div>
             @endif
         </div>
-        @if (session('is_aprovador') && $pedido->isWaitingAproval())
-            <div class="flex flex-wrap -mx-4 mt-5">
-                <div class="md:w-1/2 px-2 py-1">
-                    <form wire:submit.prevent='rejeitar'>
-                        <button type="submit"
-                            onclick="return confirm('Tem certeza que pretende REJEITAR este Pedido?')"
-                            class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 text-sm w-full">
-                            <i class="fas fa-times"></i>
-                            Rejeitar
-                        </button>
-                    </form>
-                </div>
-                <div class="md:w-1/2 px-2 py-1">
-
-                    <form wire:submit.prevent="solicitar_alteracoes">
-                        <button type="submit"
-                            onclick="return confirm('Tem certeza que pretende SOLICITAR ALTERAÇÕES para este Pedido?')"
-                            class="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 text-sm w-full">
-                            <i class="fas fa-question"></i>
-                            Solicitar Alterações
-                        </button>
-                    </form>
-
-                </div>
-                @if ($pedido->isPermitido())
-                    <div class="md:w-full px-2 py-1">
-                        <form wire:submit.prevent='aprovar'>
+        <div wire:loading.class="hidden" wire:target='rejeitar, solicitar_alteracoes, aprovar, realizar_alteracoes'>
+            @if (session('is_aprovador') && $pedido->isWaitingAproval())
+                <div class="flex flex-wrap -mx-4 mt-5">
+                    <div class="md:w-1/2 px-2 py-1">
+                        <form wire:submit.prevent='rejeitar'>
                             <button type="submit"
-                                onclick="return confirm('Tem certeza que pretende APROVAR este Pedido?')"
-                                class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 text-sm w-full">
-                                <i class="fas fa-check"></i>
-                                Aprovar
+                                onclick="return confirm('Tem certeza que pretende REJEITAR este Pedido?')"
+                                class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 text-sm w-full">
+                                <i class="fas fa-times"></i>
+                                Rejeitar
                             </button>
                         </form>
                     </div>
-                @endif
-            </div>
-        @elseif(session('is_solicitante') && $pedido->isStatusSolicitandoAlteracoes())
-            <div class="flex flex-wrap -mx-4 mt-5">
-                <div class="md:w-full px-2 py-1">
-                    <form wire:submit.prevent="realizar_alteracoes">
-                        <button type="submit"
-                            onclick="return confirm('Tem certeza que pretende REALIZAR ALTERAÇÕES neste Pedido?')"
-                            class="bg-green-500 text-white px-2 py-2 rounded-lg hover:bg-green-600 text-sm w-full">
-                            <i class="fas"></i>
-                            Realizar Alterações
-                        </button>
-                    </form>
+                    <div class="md:w-1/2 px-2 py-1">
+
+                        <form wire:submit.prevent="solicitar_alteracoes">
+                            <button type="submit"
+                                onclick="return confirm('Tem certeza que pretende SOLICITAR ALTERAÇÕES para este Pedido?')"
+                                class="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 text-sm w-full">
+                                <i class="fas fa-question"></i>
+                                Solicitar Alterações
+                            </button>
+                        </form>
+
+                    </div>
+                    @if ($pedido->isPermitido())
+                        <div class="md:w-full px-2 py-1">
+                            <form wire:submit.prevent='aprovar'>
+                                <button type="submit"
+                                    onclick="return confirm('Tem certeza que pretende APROVAR este Pedido?')"
+                                    class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 text-sm w-full">
+                                    <i class="fas fa-check"></i>
+                                    Aprovar
+                                </button>
+                            </form>
+                        </div>
+                    @endif
                 </div>
-            </div>
-        @endif
+            @elseif(session('is_solicitante') && $pedido->isStatusSolicitandoAlteracoes())
+                <div class="flex flex-wrap -mx-4 mt-5">
+                    <div class="md:w-full px-2 py-1">
+                        <form wire:submit.prevent="realizar_alteracoes">
+                            <button type="submit"
+                                onclick="return confirm('Tem certeza que pretende REALIZAR ALTERAÇÕES neste Pedido?')"
+                                class="bg-green-500 text-white px-2 py-2 rounded-lg hover:bg-green-600 text-sm w-full">
+                                <i class="fas"></i>
+                                Realizar Alterações
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            @endif
+        </div>
+
+        <div class="mt-4 text-center text-xl">
+            <x-loading-message
+                wire:target='rejeitar, solicitar_alteracoes, aprovar, realizar_alteracoes'></x-loading-message>
+        </div>
+
     </div>
 </div>
 

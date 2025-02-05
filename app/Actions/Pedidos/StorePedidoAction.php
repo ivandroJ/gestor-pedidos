@@ -2,6 +2,7 @@
 
 namespace App\Actions\Pedidos;
 
+use App\Models\Grupo;
 use App\Models\Material;
 use App\Models\Pedido;
 use App\Models\PedidoHasMaterial;
@@ -14,13 +15,19 @@ use Illuminate\Support\Str;
 class StorePedidoAction
 {
 
-    public function execute(array $materiais): ?Pedido
+    public function execute(array $materiais, Solicitante $solicitante, Grupo $grupo): ?Pedido
     {
-        return DB::transaction(function () use ($materiais) {
+        $total = array_sum(array_column($materiais, 'subTotal'));
+
+        if ($grupo->saldoPermitido < $total || !count($materiais))
+            return null;
+
+        return DB::transaction(function () use ($materiais, $solicitante) {
 
             $pedido = Pedido::create([
                 'total' => array_sum(array_column($materiais, 'subTotal')),
-                'solicitante_id' => request()->user()->solicitante->id,
+                'solicitante_id' => $solicitante->id,
+                'status' => Config::get('constants.TIPOS_STATUS_PEDIDOS.novo'),
             ]);
 
             if (!$pedido)

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('MATERIAL', function (Blueprint $table) {
             $table->id();
             $table->string('nome', 45);
-            $table->decimal('preco');
+            $table->decimal('preco',16);
         });
     }
 

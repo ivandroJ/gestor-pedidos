@@ -18,6 +18,6 @@ class IsPerfilAprovador
     {
         return
             session('is_aprovador') ?
-            $next($request) : redirect('/')->with('error_msg', 'Acesso Negado!');
+            $next($request) : redirect('/inicio')->with('error_msg', 'Acesso Negado!');
     }
 }

@@ -24,7 +24,7 @@ class StoreGrupoRequest extends FormRequest
     {
         return [
             'nome' => 'required|string|max:45',
-            'saldoPermitido' => 'required|numeric|min:0',
+            'saldoPermitido' => 'required||min:0',
         ];
     }
 
