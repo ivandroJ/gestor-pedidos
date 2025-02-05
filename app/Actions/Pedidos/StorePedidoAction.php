@@ -18,11 +18,8 @@ class StorePedidoAction
     public function execute(array $materiais, Solicitante $solicitante, Grupo $grupo): ?Pedido
     {
 
-        $total = array_sum(array_column($materiais, 'subTotal'));
-
         if (!count($materiais))
             return null;
-
 
         return DB::transaction(function () use ($materiais, $solicitante) {
 
