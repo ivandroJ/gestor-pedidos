@@ -1,7 +1,10 @@
 <div>
-    @include('inc.msg')
+
     <div class="container mx-auto p-4">
         <div class="flex flex-wrap -mx-2">
+            <div class="w-full">
+                @include('inc.msg')
+            </div>
             <!-- Coluna 1 -->
             <div class="w-full md:w-2/3 px-2 mb-4">
                 <div class="bg-white p-1 rounded-lg shadow-md">
@@ -56,10 +59,11 @@
                                     </td>
 
                                     <td class="px-6 py-4 whitespace-nowrap text-center">
-                                        <button wire:click="remove_material({{ $index }})"
-                                            class="text-sm bg-red-600 text-white py-1 px-1 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                                        <x-button color="red" color_tone="600" px="1" py="1"
+                                            wire:click="remove_material({{ $index }})"
+                                            class="text-sm rounded-md">
                                             <i class="fas fa-trash"></i>
-                                        </button>
+                                        </x-button>
 
                                     </td>
                                 </tr>
@@ -140,48 +144,41 @@
                                         </div>
                                     @enderror
 
-                                    <div wire:loading.class="hidden" wire:target='add_material'>
-                                        <div class="mb-4">
-                                            <button type="submit" onclick="return confirm('Confirmar?')"
-                                                class="text-sm w-full bg-green-600 text-white py-1 px-2 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-                                                <i class="fas fa-check"></i>
-                                                Adicionar</button>
-                                        </div>
 
-                                        <div class="mb-1">
-                                            <button
-                                                class="text-sm w-full bg-gray-600 text-white py-1 px-2 rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
-                                                wire:click='changeFormAdMaterialVisibility'>
-
-                                                Cancelar</button>
-                                        </div>
+                                    <div class="mb-4">
+                                        <x-button-live color="green" color_tone='600' px="2" py="1"
+                                            wire:target='add_material' type="submit" class="text-sm w-full rounded-md">
+                                            <i class="fas fa-check"></i>
+                                            Adicionar</x-button-live>
                                     </div>
 
-                                    <div class="mt-4 text-center">
-                                        <x-loading-message wire:target="add_material"></x-loading-message>
+                                    <div class="mb-1">
+                                        <x-button color="gray" color_tone='600' px="2" py="1"
+                                            class="text-sm w-full rounded-md"
+                                            wire:click='changeFormAdMaterialVisibility'>
+                                            Cancelar</x-button>
                                     </div>
-
 
                                 </form>
                             </div>
                         @else
                             <div wire:loading.class="hidden" wire:target='submeter'>
                                 <div class="mb-3">
-                                    <button wire:loading.attr="disabled"
-                                        class="text-sm w-full bg-blue-600 text-white py-3 px-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                                    <x-button wire:loading.attr="disabled" color="blue" color_tone='600'
+                                        px="3" py="3" class="text-sm w-full"
                                         wire:click='changeFormAdMaterialVisibility'>
                                         <i class="fas fa-plus"></i>
-                                        Adicionar Material</button>
+                                        Adicionar Material</x-button>
                                 </div>
 
                                 <div class="mb-1">
                                     <form wire:submit="submeter">
-                                        <button type="submit" onclick="return confirm('Confirmar?')"
+                                        <x-button type="submit" color="green" color_tone='700' px="3"
+                                            py="3" onclick="return confirm('Confirmar?')"
                                             wire:loading.attr="disabled" wire:target='submeter'
-                                            class="text-sm w-full bg-green-600 text-white py-3 px-2 rounded-md hover:bg-yellow-500
-                                    focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2">
+                                            class="text-sm w-full">
                                             <i class="fas fa-check"></i>
-                                            Submeter Pedido</button>
+                                            Submeter Pedido</x-button>
                                     </form>
                                 </div>
                             </div>

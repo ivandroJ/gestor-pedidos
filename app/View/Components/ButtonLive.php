@@ -6,14 +6,11 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class Button extends Component
+class ButtonLive extends Component
 {
     /**
      * Create a new component instance.
      */
-
-    public String $color_tone_hover;
-
     public function __construct(
         public String $color = 'blue',
         public int $color_tone = 500,
@@ -22,8 +19,7 @@ class Button extends Component
         public String $px = '2',
         public String $py = '3',
     ) {
-
-        $this->color_tone_hover = $this->color_tone + 100;
+        //
     }
 
     /**
@@ -31,6 +27,6 @@ class Button extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.button');
+        return view('components.button-live');
     }
 }

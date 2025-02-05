@@ -6,14 +6,15 @@
          <!-- Links da Navbar (Desktop) -->
          <div class=" md:flex space-x-4 text-center">
              <a href="#" class="text-white">{{ Auth::user()->nome }}
-                ({{ Auth::user()->perfil }})
+                 ({{ Auth::user()->perfil }})
              </a>
              <form action="/logout" method="POST" onsubmit="return confirm('Tem certeza?')">
                  @csrf
-                 <button href="/logout"
-                     class="w-full bg-red-600 text-white  px-3 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+                 <x-button color="red" color_tone='600' class="text-sm" type='submit' py="1" px="3">
                      <i class="fas fa-sign-out"></i>
-                     Sair</button>
+                     Sair
+                 </x-button>
+
              </form>
          </div>
      </div>

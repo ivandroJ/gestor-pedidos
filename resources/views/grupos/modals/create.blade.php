@@ -1,6 +1,7 @@
 <form action="/grupos" method="POST" onsubmit="return confirm('Tem certeza?')">
     @csrf
-    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 {{ old('nome') ? '' : 'hidden' }} flex items-center justify-center z-50">
+    <div id="modal"
+        class="fixed inset-0 bg-black bg-opacity-50 {{ old('nome') ? '' : 'hidden' }} flex items-center justify-center z-50">
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/3 lg:w-1/2 p-6">
             <!-- Cabeçalho do Modal -->
             <div class="flex justify-between items-center mb-4">
@@ -19,18 +20,18 @@
 
 
             <div class="mb-4">
-                 <x-currency-input id="saldoPermitido" name="saldoPermitido" value="{{ old('saldoPermitido') }}">
+                <x-currency-input id="saldoPermitido" name="saldoPermitido" value="{{ old('saldoPermitido') }}">
                     Saldo Permitido<span class="text-red-500">*</span>
-                 </x-currency-input>
+                </x-currency-input>
             </div>
 
             <div class="flex justify-end">
-                <button type="button" id="cancelModal" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 mr-2">
+                <x-button id="cancelModal" color="gray" px="4" py="2" class="mr-2">
                     Cancelar
-                </button>
-                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                </x-button>
+                <x-button type="submit" color="blue" px="4" py="2">
                     Salvar
-                </button>
+                </x-button>
             </div>
         </div>
     </div>

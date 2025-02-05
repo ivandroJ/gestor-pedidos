@@ -8,7 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - {{ Route::currentRouteName() }}</title>
+    <title>{{ config('app.name', 'Laravel') }} {{ Route::currentRouteName() ? ' - ' . Route::currentRouteName() : '' }}
+    </title>
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])

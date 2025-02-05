@@ -30,16 +30,16 @@
 
                             <td class="px-6 py-4 whitespace-nowrap text-center">
                                 @if (($usuario['id'] ?? null) == $element->id)
-                                    <button wire:click='select_usuario()'
-                                        class="bg-gray-400 text-white px-2 py-1 rounded-lg hover:bg-gray-600 text-sm w-full">
+                                    <x-button wire:click='select_usuario()' color="gray" color_tone='400'
+                                        px="2" py="1" class="text-sm w-full">
                                         Fechar
-                                    </button>
+                                    </x-button>
                                 @else
-                                    <button wire:click='select_usuario({{ $index }})'
-                                        class="bg-blue-400 text-white px-2 py-1 rounded-lg hover:bg-blue-600 text-sm w-full">
+                                    <x-button wire:click='select_usuario({{ $index }})' color="blue"
+                                        color_tone='500' px="2" py="1" class="text-sm w-full">
                                         <i class="fas fa-list"></i>
                                         Detalhes
-                                    </button>
+                                    </x-button>
                                 @endif
 
                             </td>

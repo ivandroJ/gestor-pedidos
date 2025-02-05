@@ -40,7 +40,7 @@
                                 onsubmit="return confirm('Tem certeza?')">
                                 @csrf
                                 <input type="hidden" name='usuario_id' value="{{ $usuario->id }}">
-                                <x-button color="green" type="submit" class="text-sm" px='2' py="1">
+                                <x-button color="green-500" type="submit" class="text-sm" px='2' py="1">
                                     Reiniciar Senha
                                 </x-button>
                             </form>

@@ -14,7 +14,8 @@
             @enderror
         </div>
         <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-700">E-Mail <span class="text-red-500">*</span></label>
+            <label for="email" class="block text-sm font-medium text-gray-700">E-Mail <span
+                    class="text-red-500">*</span></label>
             <input type="text" id="email" wire:model.defer='usuario.email'
                 class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                 placeholder="Insira o e-mail">
@@ -50,7 +51,8 @@
 
         @if ($usuario['perfil'] == Config::get('constants.PERFIS.solicitante'))
             <div class="mb-4">
-                <label for="grupo" class="block text-sm font-medium text-gray-700">Grupo <span class="text-red-500">*</span></label>
+                <label for="grupo" class="block text-sm font-medium text-gray-700">Grupo <span
+                        class="text-red-500">*</span></label>
                 <select id="grupo" wire:model.defer='usuario.grupo_id'
                     class="mt-1 block w-full px-3 py-2 border rounded-md shadow-sm border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <option value="" hidden>(Selecione uma opção)</option>
@@ -69,9 +71,9 @@
                 <span class="text-xs text-red-500">{{ $message }}</span>
             </div>
         @enderror
-        <button type="submit" onclick="return confirm('Tem certeza?')"
-            class="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
+        <x-button type="submit" color="green" color_tone='600' px="4" py="2"
+            onclick="return confirm('Tem certeza?')" class="w-full">
             <i class="fas fa-check"></i>
-            Cadastrar</button>
+            Cadastrar</x-button>
     </form>
 </div>

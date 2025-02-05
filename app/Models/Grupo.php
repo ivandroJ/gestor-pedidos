@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Grupo extends Model
 {
     use HasFactory;
-    
+
     protected $table = 'GRUPO';
     public $primaryKey = 'id';
     protected $keyType = 'int';
@@ -21,9 +21,9 @@ class Grupo extends Model
 
     public $timestamps = false;
 
-    public function solicitante()
+    public function solicitantes()
     {
-        return $this->hasOne(Solicitante::class, 'grupo_id');
+        return $this->hasMany(Solicitante::class, 'grupo_id');
     }
 
     public function pedidos()

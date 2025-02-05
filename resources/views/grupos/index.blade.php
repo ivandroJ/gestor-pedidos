@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="flex justify-end mb-4">
-        <button id="openModal" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+        <x-button id="openModal" color="blue" py="2" px="4">
             <i class="fas fa-plus"></i>
             Novo
-        </button>
+        </x-button>
     </div>
 
     <div class="bg-white rounded-lg shadow-lg overflow-hidden w-full">
@@ -23,7 +23,7 @@
                             </th>
 
                             <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Solicitante
+                                Solicitantes
                             </th>
                         </tr>
                     </thead>
@@ -37,12 +37,16 @@
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-center">
                                     <div class="text-sm text-gray-900">
-                                        {{ number_format($grupo->saldoPermitido, 2, ',', '.') }}
+                                        <x-currency-label :currency="$grupo->saldoPermitido"></x-currency-label>
                                     </div>
                                 </td>
 
-                                <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    {{ $grupo->solicitante->usuario->nome ?? '-' }}
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    @forelse ($grupo->solicitantes->sortBy('usuario.nome') as $solicitante)
+                                        # {{ $solicitante->usuario->nome }}<br>
+                                    @empty
+                                        -
+                                    @endforelse
                                 </td>
                             </tr>
                         @empty

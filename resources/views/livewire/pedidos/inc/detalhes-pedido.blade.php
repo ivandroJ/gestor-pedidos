@@ -81,35 +81,35 @@
                 <div class="flex flex-wrap -mx-4 mt-5">
                     <div class="md:w-1/2 px-2 py-1">
                         <form wire:submit.prevent='rejeitar'>
-                            <button type="submit"
+                            <x-button type="submit" color="red" px="2" py="1"
                                 onclick="return confirm('Tem certeza que pretende REJEITAR este Pedido?')"
-                                class="bg-red-500 text-white px-2 py-1 rounded-lg hover:bg-red-600 text-sm w-full">
+                                class="text-sm w-full">
                                 <i class="fas fa-times"></i>
                                 Rejeitar
-                            </button>
+                            </x-button>
                         </form>
                     </div>
                     <div class="md:w-1/2 px-2 py-1">
 
                         <form wire:submit.prevent="solicitar_alteracoes">
-                            <button type="submit"
+                            <x-button type="submit" color="yellow" color_tone='500' px="2" py="1"
                                 onclick="return confirm('Tem certeza que pretende SOLICITAR ALTERAÇÕES para este Pedido?')"
-                                class="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 text-sm w-full">
+                                class="text-sm w-full">
                                 <i class="fas fa-question"></i>
                                 Solicitar Alterações
-                            </button>
+                            </x-button>
                         </form>
 
                     </div>
                     @if ($pedido->isPermitido())
                         <div class="md:w-full px-2 py-1">
                             <form wire:submit.prevent='aprovar'>
-                                <button type="submit"
+                                <x-button type="submit" color="green" color_tone='500' px="2" py="1"
                                     onclick="return confirm('Tem certeza que pretende APROVAR este Pedido?')"
-                                    class="bg-green-500 text-white px-2 py-1 rounded-lg hover:bg-green-600 text-sm w-full">
+                                    class="text-sm w-full">
                                     <i class="fas fa-check"></i>
                                     Aprovar
-                                </button>
+                                </x-button>
                             </form>
                         </div>
                     @endif
@@ -118,12 +118,11 @@
                 <div class="flex flex-wrap -mx-4 mt-5">
                     <div class="md:w-full px-2 py-1">
                         <form wire:submit.prevent="realizar_alteracoes">
-                            <button type="submit"
-                                onclick="return confirm('Tem certeza que pretende REALIZAR ALTERAÇÕES neste Pedido?')"
-                                class="bg-green-500 text-white px-2 py-2 rounded-lg hover:bg-green-600 text-sm w-full">
+                            <x-button type="submit" color="green" color_tone='500' px="2" py="2"
+                                class="text-sm w-full">
                                 <i class="fas"></i>
                                 Realizar Alterações
-                            </button>
+                            </x-button>
                         </form>
                     </div>
                 </div>
