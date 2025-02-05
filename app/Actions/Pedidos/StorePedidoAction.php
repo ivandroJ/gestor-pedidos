@@ -17,10 +17,12 @@ class StorePedidoAction
 
     public function execute(array $materiais, Solicitante $solicitante, Grupo $grupo): ?Pedido
     {
+
         $total = array_sum(array_column($materiais, 'subTotal'));
 
-        if ($grupo->saldoPermitido < $total || !count($materiais))
+        if (!count($materiais))
             return null;
+
 
         return DB::transaction(function () use ($materiais, $solicitante) {
 
@@ -29,6 +31,8 @@ class StorePedidoAction
                 'solicitante_id' => $solicitante->id,
                 'status' => Config::get('constants.TIPOS_STATUS_PEDIDOS.novo'),
             ]);
+
+
 
             if (!$pedido)
                 return DB::rollBack();
