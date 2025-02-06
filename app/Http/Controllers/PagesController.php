@@ -11,7 +11,6 @@ class PagesController extends Controller
 {
     public function home()
     {
-        Debugbar::info(session('error_msg'));
 
         return view('pages.home', [
             'opcoes_menu' => Config::get('constants.OPCOES_MENU_' . Auth::user()->perfil, [])
