@@ -48,5 +48,27 @@ return
             'aprovador' => 'Aprovador',
         ],
 
+        'NOTIFICATION_CARDS_CONFIG' => [
+        'error_msg' => [
+            'color' => 'red',
+            'text-color' => 'white',
+            'icon' => 'exclamation-circle',
+        ],
+        'warning_msg' => [
+            'color' => 'yellow',
+            'text-color' => 'white',
+            'icon' => 'exclamation-triangle',
+        ],
+        'info_msg' => [
+            'color' => 'blue',
+            'text-color' => 'white',
+            'icon' => 'info-circle',
+        ],
+        'sucess_msg' => [
+            'color' => 'green',
+            'text-color' => 'white',
+            'icon' => 'check-circle',
+        ],
+    ]
 
     ];
