@@ -72,7 +72,7 @@ A aplicação utiliza o **Nodemailer** para envio de e-mails. Certifique-se de c
 
 - **Rodar em modo de desenvolvimento**:
   ```bash
-  npm run dev
+  composer run dev
   ```
 
 ---
